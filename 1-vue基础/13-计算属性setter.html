@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        img {
+            width: 300px;
+            height: 180px;
+        }
+        ul {
+            width: 300px;
+            list-style: none;
+        }
+        ul li {
+            margin: 20px 10px;
+            padding: 5px;
+            border: 1px solid #000;
+        }
+        ul li.active {
+            background-color: yellow;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <img :src="getCurrentImgSrc" alt="亚修">
+        <ul>
+            <li v-for='(item, index) in imgData' @click='clickHandler(index)' :class='{active: currentIndex==index}'>
+                <h3>{{item.id}}-姓名：{{item.name}}---国家：{{item.country}}</h3>
+                <p>存储地址：{{item.imgSrc}}</p>
+            </li>
+        </ul>
+    </div>
+    <script src="../vue.min.js"></script>
+    <script>
+        var imgData = [
+            {id: 1, name: "mike", country: "美国", imgSrc: "./img/1.jpg"},
+            {id: 2, name: "july", country: "加拿大", imgSrc: "./img/2.jpg"},
+            {id: 3, name: "june", country: "日本", imgSrc: "./img/3.jpg"}
+        ];
+        new Vue({
+            el: "#app",
+            data() {
+                return {
+                    imgData: imgData,
+                    currentIndex: 0
+                }
+            },
+            computed: {
+                // 计算属性默认只有getter
+                // getCurrentImgSrc() {
+                //     return this.imgData[this.currentIndex].imgSrc;
+                // }
+                // setter也可以，注意两者写法的差异
+                getCurrentImgSrc: {
+                    set: function(newV) { 
+                        console.log(newV);
+                        this.currentIndex = newV;
+                    },
+                    get: function() {
+                        return this.imgData[this.currentIndex].imgSrc;
+                    }
+                }
+            },
+            methods: {
+                clickHandler(index) {
+                    // 直接修改数据属性
+                    console.log(this.getCurrentImgSrc);
+                    this.getCurrentImgSrc= index;
+                }
+            }
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <!-- 监听数据属性msg -->
+    <div id="app">
+        <input type="text" v-model="msg"><!-- 监听字符串（简单数据类型） -->
+        <h3>{{msg}}</h3>
+        <button type="text" @click='stu[0].name="rose"'>改变</button><!-- 监听数组（复杂数据类型） -->
+        <h3>{{stu[0].name}}</h3>
+    </div>
+    <script src="../vue.min.js"></script>
+    <script>
+        new Vue({
+            el: "#app",
+            data() {
+                return {
+                    msg: "",
+                    stu: [{name: "mike"}]
+                }
+            },
+            // watch监听的是单个属性，一个函数监听一个属性
+            watch: {
+                // 基本数据类型，简单监听
+                msg: function(newV, oldV) {
+                    console.log(newV, oldV);
+                    if(newV === "hello") {
+                        console.log("world");
+                    }
+                },
+                // 复杂数据类型（array，object）要深度监听
+                stu: {
+                    deep: true, // 深度监听
+                    handler: function(newV, oldV) {
+                        console.log(newV);
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+</html>

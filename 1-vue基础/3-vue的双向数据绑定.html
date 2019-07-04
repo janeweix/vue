@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <!-- v-model是双向数据绑定的体现，只会体现在UI控件上，只能用在有value属性的 -->
+    <div id="app">
+        <input id="inp1" type="text" v-model="msg"><!-- 会影响inp1,inp2,div -->
+        <input id="inp2" type="text" v-bind:value = "msg"><!-- 只有自身改变 -->
+        <input id="inp3" type="text" v-on:input = "valChange"><!-- 利用函数实改变全部的msg值 -->
+        <div>{{msg}}</div>
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        new Vue({
+            el: '#app',
+            data: function() {
+                return {
+                    msg: '你好'
+                }
+            },
+            methods: {
+                valChange(e) {
+                    console.log(e.target.value);
+                    this.msg =  e.target.value;
+                }
+            }
+        });
+    </script>
+</body>
+</html>

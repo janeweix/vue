@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app"></div>
+    <script src="../node_modules/vue/dist/vue.min.js"></script>
+    <script>
+        var Vheader = {
+            data() {
+                return {
+
+                }
+            },
+            template: `
+                <div>我是头部组件</div>
+            `,
+            methods: {
+                
+            }
+
+        };
+        var Vaside = {
+            template: `
+                <div>我是侧边栏组件</div>
+            `
+        };
+        var Vcontent = {
+            template: `
+                <div>我是内容组件</div>
+            `
+        };
+        // 1. 声子
+        var App = {
+            components: {
+                Vheader,
+                Vaside,
+                Vcontent
+            },
+            template: `
+                <div>
+                    我是入口组件
+                    <Vheader />
+                    <div>
+                        <Vaside />
+                        <Vcontent />
+                    </div>
+                </div>
+            `
+        };
+        new Vue({
+            el: "#app",
+            data() {
+                return {
+
+                }
+            },
+            // 2. 挂子
+            components: {
+                App
+            },
+            // 3. 用子
+            template: `
+                <App />
+            `
+        })
+    </script>
+</body>
+</html>
