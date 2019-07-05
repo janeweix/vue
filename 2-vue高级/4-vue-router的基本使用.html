@@ -7,6 +7,74 @@
     <title>Document</title>
 </head>
 <body>
-    
+    <div id="app"></div>
+    <!-- 1. 引入 vue 的模块 -->
+    <script src='../vue.min.js'></script>
+    <!-- 2. 引入 vue-router 的模块 -->
+    <script src='../node_modules/vue-router/dist/vue-router.js'></script>
+    <!-- 3. 让Vue使用该VueRouter -->
+    <script>
+        // 如果在一个模块化工程中使用它，必须要通过 Vue.use() 明确地安装路由功能：
+        // Vue.use(VueRouter);
+        // 如果使用全局的 script 标签，则无须如此 (手动安装)。
+
+        var Login = {
+            template: `
+                <h2>我是登录页面</h2>
+            `
+        };
+        var Register = {
+            template: `
+                <h2>我是注册页面</h2>
+            `
+        };
+
+        // 4. 创建router对象
+        var router = new VueRouter({
+            // 5. 配置路由对象
+            routes: [ // 存放所有的路由
+            // 路由配置的规则
+                { 
+                    path: '/login', // 匹配到这个path，就加载对应的Login组件
+                    component: Login // 注意，这里不加s 
+                },
+                {
+                    path: '/register', // 默认带 #
+                    component: Register
+                }
+            ]
+        });
+
+        // 引入vue-router组件后，抛出两个全局的组件 router-link router-view
+        // router-link ==> a, to ==> href
+        // router-view ==> 路由匹配组件的出口
+        var App = {
+            // 注意：路由一定要包裹在div标签中
+            template: `
+                <div>
+                    <!-- <a href=''>登录</a> -->
+                    <!-- <a href=''>注册</a> -->
+                    <router-link to="/login">登录</router-link>
+                    <router-link to="/register">注册</router-link>
+                    <router-view></router-view>
+                </div>
+            `
+        };
+        new Vue({
+            el: "#app",
+            data() {
+                return {
+
+                }
+            },
+            // 6. 交给vue实例化对象管理
+            // router: router
+            router,
+            components: {
+                App
+            },
+            template: `<App />`
+        });
+    </script>
 </body>
 </html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app"></div>
+    <script src='../vue.min.js'></script>
+    <script src='../node_modules/vue-router/dist/vue-router.js'></script>
+    <script>
+        // 地址栏上 路由范式
+        // 1）xxx.html#/user/1  params 动态路由参数
+        // 2）xxx.html#/user?userId=1  query（查询）
+        var UserParams = {
+            template: `
+                <h2>我是用户1</h2>
+            `,
+            // 点击锚点时，输出
+            created() {
+                // 抛出两个对象，挂载到vue实例对象上
+                console.log(this.$router);
+                console.log(this.$route); // 里面有params属性，是一个对象
+                console.log(this.$route.params.id);
+            }
+        };
+        var UserQuery = {
+            template: `
+                <h2>我是用户2</h2>
+            `
+        };
+
+        var router = new VueRouter({
+            routes: [ 
+                { 
+                    // 动态路由参数，声明时以冒号开头
+                    path: '/user/:id',
+                    name: 'userP',
+                    component: UserParams
+                },
+                {
+                    path: '/user', 
+                    name: 'userQ',
+                    component: UserQuery
+                }
+            ]
+        });
+        var App = {
+            template: `
+                <div>
+                    <router-link :to="{name: 'userP', params: {id: 3}}">用户1</router-link>
+                    <router-link :to="{name: 'userQ', query: {userId: 5}}">用户2</router-link>
+                    <router-view></router-view>
+                </div>
+            `
+        };
+        new Vue({
+            el: "#app",
+            data() {
+                return {
+
+                }
+            },
+            router,
+            components: {
+                App
+            },
+            template: `<App />`
+        });
+    </script>
+</body>
+</html>
