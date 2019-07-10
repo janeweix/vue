@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app"></div>
+    <script src="../node_modules/vue/dist/vue.min.js"></script>
+    <script src="../node_modules/vue-router/dist/vue-router.min.js"></script>
+    <script>
+        /* 当使用路由参数时，例如从/timeline/frontend导航到/timeline/backend,
+         * 原来的组件实例会被复用。因为两个路由都渲染同个组件，比起销毁再创建，复用则显得更加有效。
+         * 不过，这也意味着组件的生命周期钩子不会载被调用。
+        */
+
+        // 观察点击“前端”“后端”锚点时，是否会重新渲染
+        // 路由变了，组件是否加载？
+        var ComDesc = {
+            data() {
+                return {
+                    msg: ''
+                }
+            },
+            template: `
+                <div>我是{{msg}}</div>
+            `,
+            created() {
+                // 可以发ajax请求
+                console.log(1);
+                this.msg = 'frontend';
+            },
+            // 在当前组件内部，监听路由信息的变化
+            watch: {
+                '$route'(to, from) {
+                    console.log(to);
+                    console.log(from);
+                    // 发送ajax请求
+                    this.msg = to.params.id;
+                }
+            }
+        };
+        var Home = {
+            template: `
+                <div id='home'>
+                    <h2>我是首页</h2>
+                    <!-- 匹配命名路由 -->
+                    <router-link :to="{name: 'comDesc', params: {id: 'frontend'}}">前端</router-link>
+                    <router-link :to="{name: 'comDesc', params: {id: 'backend'}}">后端</router-link>
+                    <router-view></router-view>
+                </div>
+            `
+        };
+        var Pins = {
+            template: `
+                <h3>我是沸点</h3>
+            `
+        };
+        var router = new VueRouter({
+            routes: [
+                {
+                    path: '/home',
+                    component: Home,
+                    children: [
+                        {
+                            name: 'comDesc', // 共同的描述组件
+                            path: '/home/:id', // 动态路由参数，以冒号开头
+                            component: ComDesc
+                        }
+                    ]
+                },
+                {
+                    path: '/pins',
+                    component: Pins
+                }
+            ]
+        });
+        var App = {
+            // 注意：下面三条语句一定要包裹在同一个容器中
+            template: `
+                <div>
+                    <router-link to='/home'>首页</router-link>
+                    <router-link to='/pins'>沸点</router-link>
+                    <router-view></router-view>
+                </div>
+            `
+        };
+        new Vue({
+            el: '#app',
+            router,
+            template: `<App />`,
+            components: {
+                App
+            }
+        });
+    </script>
+</body>
+</html>

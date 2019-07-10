@@ -1,4 +1,4 @@
-# vue 学习资料
+# vue 学习笔记
 * vue 基础
 * vue 高级
 * vue 实战

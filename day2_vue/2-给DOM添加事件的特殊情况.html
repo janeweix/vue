@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app"></div>
+    <script src="../node_modules/vue/dist/vue.min.js></script>
+    <script>
+        var App = {
+            data() {
+                return {
+                    isShow: false
+                }
+            },
+            template: `
+                <div>
+                    <input type='text' ref='inp' v-show='isShow'/>
+                </div>
+            `,
+            mounted() {
+                this.isShow = true;
+                // console.log(this.$refs.inp); 
+                // 能看到这个DOM对象，但是调用方法没有用
+                // this.$refs.inp.focus(); 
+                // nextTick()方法，在DOM更新循环结束之后执行回调函数
+                // 在数据更新后使用此方法，在回调中获取到更新后的DOM
+                this.$nextTick(() => {
+                    this.$refs.inp.focus();
+                });
+            }
+        };
+        new Vue({
+            el: "#app",
+            data() {
+                return {
+
+                }
+            },
+            components: {
+                App
+            },
+            template: `<App />`
+        })
+    </script>
+</body>
+</html>

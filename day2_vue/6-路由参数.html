@@ -8,12 +8,13 @@
 </head>
 <body>
     <div id="app"></div>
-    <script src='../vue.min.js'></script>
+    <script src='../node_modules/vue/dist/vue.min.js'></script>
     <script src='../node_modules/vue-router/dist/vue-router.js'></script>
     <script>
         // 地址栏上 路由范式
         // 1）xxx.html#/user/1  params 动态路由参数
         // 2）xxx.html#/user?userId=1  query（查询）
+        
         var UserParams = {
             template: `
                 <h2>我是用户1</h2>

@@ -8,35 +8,31 @@
 </head>
 <body>
     <div id="app"></div>
-    <script src="../vue.min.js"></script>
+    <script src="../node_modules/vue/dist/vue.min.js"></script>
+    <script src="../node_modules/axios/dist/axios.js"></script>
     <script>
         var App = {
-            data() {
-                return {
-                    msg: "我是父组件的内容",
-                    msgC: "hello c"
-                }
-            },
             template: `
                 <div>
-                    <p>这是父组件的内容！</p>
-                    <A :msgC='msgC' v-on:getCData='getCData'></A>
+                    <button @click='sendAjax'>发请求</button>    
                 </div>
             `,
             methods: {
-                // 执行C组件触发的函数
-                getCData(val) {
-                    console.log(val);;
+                sendAjax() {
+                    this.$axios.get('http://127.0.0.1:8888/')
+                    .then(res => { // 用箭头函数，防止this发生改变
+                        console.log(res);
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    })
                 }
             }
         };
+        // $axios 表示命名为axios
+        Vue.prototype.$axios = axios;
         new Vue({
             el: "#app",
-            data() {
-                return {
-
-                }
-            },
             components: {
                 App
             },

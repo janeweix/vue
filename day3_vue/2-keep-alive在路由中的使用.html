@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app"></div>
+    <script src="../node_modules/vue/dist/vue.min.js"></script>
+    <script src="../node_modules/vue-router/dist/vue-router.min.js"></script>
+    <script>
+        /* 注意：当使用路由参数时，例如从/timeline/frontend导航到/timeline/backend,
+         * 原来的组件实例会被复用。因为两个路由都渲染同个组件，比起销毁再创建，复用则显得更加有效。
+         * 不过，这也意味着组件的生命周期钩子不会载被调用。
+         */
+
+        var Timeline= {
+            template: `
+                <div id='timeline'>
+                    <h2>我是首页</h2>
+                </div>
+            `,
+            created() {
+                console.log('首页组件创建了');
+            },
+            mounted() {
+                console.log('首页组件DOM加载了');
+            },
+            destroyed() {
+                console.log('首页组件销毁了');
+            }
+        };
+        var Pins = {
+            template: `
+                <h2 @click='clickHandler'>我是沸点</h2>
+            `,
+            methods: {
+                clickHandler(e) {
+                    e.target.style.color = 'red';
+                }
+            },
+            created() {
+                console.log('沸点组件创建了');
+            },
+            mounted() {
+                console.log('沸点组件DOM加载了');
+            },
+            destroyed() {
+                console.log('沸点组件销毁了');
+            }
+        };
+        var router = new VueRouter({
+            routes: [
+                {
+                    path: '/timeline',
+                    component: Timeline
+                },
+                {
+                    path: '/pins',
+                    component: Pins
+                }
+            ]
+        });
+        var App = {
+            template: `
+                <div>
+                    <router-link to='/timeline'>首页</router-link>
+                    <router-link to='/pins'>沸点</router-link>
+                    <!-- 把组件的状态缓存下来 -->
+                    <keep-alive>
+                        <router-view></router-view>
+                    </keep-alive>
+                </div>
+            `
+        };
+        new Vue({
+            el: '#app',
+            router,
+            template: `<App />`,
+            components: {
+                App
+            }
+        });
+    </script>
+</body>
+</html>
