@@ -22,6 +22,7 @@
                     this.$axios.get('http://127.0.0.1:8888/')
                     .then(res => { // 用箭头函数，防止this发生改变
                         console.log(res);
+                        console.log(res.data.msg);
                     })
                     .catch(err => {
                         console.log(err);
